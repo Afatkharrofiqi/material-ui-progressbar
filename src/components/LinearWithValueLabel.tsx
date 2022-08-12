@@ -25,14 +25,15 @@ function LinearProgressWithLabel(
 const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
 const LinearWithValueLabel = () => {
-  const maxValue = 64; // max value of the progress bar
+  const maxValue = 800; // max value of the progress bar
   const [progress, setProgress] = useState(0);
 
   const data = [...Array.from(Array(maxValue).keys())];
 
   useEffect(() => {
     const count = async () => {
-      let percentage10 = maxValue / 10; // 10% of the max value
+      let percentage10 =
+        maxValue >= 10 ? (maxValue > 1000 ? 100 : maxValue * 0.1) : 1; // 10% of the max value
       for (let i = 1; i <= data.length; i + percentage10) {
         // loop through the data array
         const sendData = data.splice(0, percentage10); // remove the first 10% elements
@@ -41,7 +42,7 @@ const LinearWithValueLabel = () => {
       }
     };
     count();
-  }, [data]);
+  }, []);
 
   return (
     <LinearProgressWithLabel
